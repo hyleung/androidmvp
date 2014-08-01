@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 
 android {
     compileSdkVersion 19
@@ -19,10 +20,20 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            buildConfigField "boolean", "ENABLE_STRICT_MODE", "false"
+        }
+        debug {
+            buildConfigField "boolean", "ENABLE_STRICT_MODE", "true"
+        }
+    }
+    sourceSets {
+        androidTest {
+            setRoot('src/test')
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'org.robolectric:robolectric:2.3'
 }
